@@ -9,6 +9,7 @@ public class GA_Binary {
 	private final int[][] qkValueWeight; // [0][] is Value // [1][] is Weight
 	private final int[][] qkPairValue;
 	private final int qkCapacity;
+	private final int numObjects;
 	
 	private int numGenerationsToRun;
 	
@@ -44,16 +45,20 @@ public class GA_Binary {
 	private int[][] nextGenPopulation;
 	
 	// *** Constructor ***
-	public GA_Binary (int[][] qkValueWeight, int[][] qkPairValue, int qkCapacity) {
+	public GA_Binary (int[][] qkValueWeight, int[][] qkPairValue, int qkCapacity, int numObjects) {
 		this.qkValueWeight = qkValueWeight;
 		this.qkPairValue = qkPairValue;
 		this.qkCapacity = qkCapacity;
+		this.numObjects = numObjects;
 		
+		this.populations = new int[popsSize][numObjects];
 		this.popFitness = new int[popsSize];
-		this.random = new Random();
 		this.parentPool = new int[parentSize];
-		this.offspringPool = new int[offspringSize][9][9];
-		this.elitismPool = new int[elitismSize][9][9];
+		this.offspringPool = new int[offspringSize][numObjects];
+		this.elitismPool = new int[elitismSize][numObjects];
+		this.nextGenPopulation = new int[popsSize][numObjects];
+	
+		this.random = new Random();
 	}
 	
 	// *** Run ***

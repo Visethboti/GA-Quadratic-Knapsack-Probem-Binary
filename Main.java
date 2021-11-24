@@ -13,8 +13,8 @@ public class Main {
 		printProblem();
 		
 		// Run GA
-		GA_Binary ga_Binary = new GA_Binary();
-		ga_Binary.runGA(qkValueWeight, qkPairValue, qkCapacity, numObjects);
+		GA_Binary ga_Binary = new GA_Binary(qkValueWeight, qkPairValue, qkCapacity, numObjects);
+		ga_Binary.runGA(1);
 	}
 	
 	public static void readProblem() {
@@ -26,8 +26,8 @@ public class Main {
 			numObjects = scanner.nextInt(); // size of object in this problem instance
 			
 			// init problem
-			qkValueWeight = new int[2][size];
-			qkPairValue = new int[size][size];
+			qkValueWeight = new int[2][numObjects];
+			qkPairValue = new int[numObjects][numObjects];
 			
 			// read in value
 			for(int i = 0; i < numObjects; i++) {
@@ -55,7 +55,7 @@ public class Main {
 			qkCapacity = scanner.nextInt();
 			
 			// read in weight
-			for(int i = 0; i < size; i++) {
+			for(int i = 0; i < numObjects; i++) {
 				qkValueWeight[1][i] = scanner.nextInt();
 			}
 			
