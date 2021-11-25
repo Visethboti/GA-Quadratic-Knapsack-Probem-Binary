@@ -1,4 +1,4 @@
-
+import java.lang.Math;
 import java.util.Random;
 
 
@@ -18,7 +18,7 @@ public class GA_Binary {
 	private final double parentSizePercentage = 0.5; 
 	private final double offspringSizePercentage = 0.98;
 	private final double elitismSizePercentage = 0.02;
-	private final double mutationProbality = 1;
+	private final double mutationProbality = 0.0005;
 	private final int kTournamentSize = 3;
 	
 	// Parameters Size
@@ -69,6 +69,7 @@ public class GA_Binary {
 		initialization();
 		fitnessCalculation();
 		printPopulations();
+		printFitnessStat();
 		parentSelection();
 		crossOver();
 		elitism();
@@ -80,10 +81,10 @@ public class GA_Binary {
 		replaceGeneration();
 		fitnessCalculation();
 		printPopulations();
-		
-		mutation();
-		fitnessCalculation();
-		printPopulations();
+		printFitnessStat();
+		//mutation();
+		//fitnessCalculation();
+		//printPopulations();
 	}
 	
 	// EA Methods
@@ -318,6 +319,35 @@ public class GA_Binary {
 			System.out.print(elitismPool[i]);
 			System.out.println(" Fitness: " + getFitness(elitismPool[i]));
 		}
+	}
+	
+	private void printFitnessStat(){
+		double sum = 0, avgFitness = 0, standardDeviation = 0;
+		int highestFitness = 0, highestFitessIndex = 0, lowestFitness = popFitness[0], lowestFitessIndex = 0;
+		
+		
+		for(int i = 0; i < popsSize; i++){
+			if(highestFitness < popFitness[i]){
+				highestFitessIndex = i;
+				highestFitness = popFitness[i];
+			}
+			if(lowestFitness > popFitness[i]){
+				lowestFitessIndex = i;
+				lowestFitness = popFitness[i];
+			}
+			sum+=popFitness[i];
+		}
+		avgFitness = (double) sum / popsSize;
+		
+		// Standard Deviation Calculation
+		for(int i = 0; i < popsSize; i++) {
+			standardDeviation += Math.pow((popFitness[i] - avgFitness), 2); // pow of 2
+		}
+		standardDeviation = Math.sqrt(standardDeviation/popsSize);
+		
+		//Print the stats
+		System.out.println("====== EA Stats ====== ");
+		System.out.println("AvgFitness= " + avgFitness + "| Highest= " + highestFitness + "| Lowest= " + lowestFitness + "| StanDev= " + standardDeviation);
 	}
 	
 	private boolean notExistInArray(int[] array, int value) {
