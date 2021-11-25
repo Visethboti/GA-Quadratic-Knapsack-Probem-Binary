@@ -14,10 +14,10 @@ public class GA_Binary {
 	private int numGenerationsToRun;
 	
 	// Parameters
-	private final int popsSize = 2;
+	private final int popsSize = 10;
 	private final double parentSizePercentage = 0.5; 
-	private final double offspringSizePercentage = 0.9;
-	private final double elitismSizePercentage = 0.1;
+	private final double offspringSizePercentage = 0.98;
+	private final double elitismSizePercentage = 0.02;
 	private final double mutationProbality = 0.0005;
 	private final int kTournamentSize = 3;
 	
@@ -33,7 +33,7 @@ public class GA_Binary {
 	private int[] popFitness;
 		
 	// Parents SelectionEvent
-	private char[] parentPool;
+	private int[] parentPool;
 		
 	// Crossover
 	private char[][] offspringPool;
@@ -53,7 +53,7 @@ public class GA_Binary {
 		
 		this.populations = new char[popsSize][numObjects];
 		this.popFitness = new int[popsSize];
-		this.parentPool = new char[parentSize];
+		this.parentPool = new int[parentSize];
 		this.offspringPool = new char[offspringSize][numObjects];
 		this.elitismPool = new char[elitismSize][numObjects];
 		this.nextGenPopulation = new char[popsSize][numObjects];
@@ -68,12 +68,13 @@ public class GA_Binary {
 		initialization();
 		fitnessCalculation();
 		printPopulations();
+		parentSelection();
 	}
 	
 	// EA Methods
 	private void initialization(){
 		for(int i = 0; i < popsSize; i++) {
-			// Only chromosome that fit in the knapsack capacity is allowed
+			// Only chromosome that fit in the knapsack capacity is allowed. The do while loop will run till one fit under capacity.
 			do {
 				for(int j = 0; j < qkNumObjects; j++) {
 					if(random.nextBoolean()) {
@@ -93,8 +94,26 @@ public class GA_Binary {
 		}
 	}
 	
-	private void parentSelection(){
-		
+	private void parentSelection(){ // K-tournament Selection
+		//int[] tournament = new int[kTournamentSize]; // to store the index to the chromosome randomly choosen from population
+		int bestChromosomeIndex;
+		int randomNum;
+		for(int i = 0; i < parentSize; i++) { // number of parents need to choose
+			bestChromosomeIndex = -1;
+			for(int j = 0; j < kTournamentSize; j++) { // choose random chromosome from population ktournamentSize number of times and select the best fitness
+				do {
+					randomNum = random.nextInt(popsSize);
+				} while(!notExistInArray(parentPool, randomNum));	
+				
+				if(bestChromosomeIndex == -1)
+					bestChromosomeIndex = randomNum;
+				else if(popFitness[randomNum] > popFitness[bestChromosomeIndex]) 
+					bestChromosomeIndex = randomNum;
+			}
+			
+			parentPool[i] = bestChromosomeIndex;
+			System.out.println("parent: "+ bestChromosomeIndex);
+		}
 	}
 	
 	private void crossOver(){
@@ -144,4 +163,16 @@ public class GA_Binary {
 			System.out.println(" Fitness: " + popFitness[i]);
 		}
 	}
+	
+	private boolean notExistInArray(int[] array, int value) {
+		for(int i = 0; i < array.length; i++) {
+			if(value == array[i])
+				return false;
+		}
+		return true;
+	}
+	
 }
+
+
+
