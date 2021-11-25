@@ -73,14 +73,17 @@ public class GA_Binary {
 	// EA Methods
 	private void initialization(){
 		for(int i = 0; i < popsSize; i++) {
-			for(int j = 0; j < qkNumObjects; j++) {
-				if(random.nextBoolean()) {
-					populations[i][j] = '1';
+			// Only chromosome that fit in the knapsack capacity is allowed
+			do {
+				for(int j = 0; j < qkNumObjects; j++) {
+					if(random.nextBoolean()) {
+						populations[i][j] = '1';
+					}
+					else {
+						populations[i][j] = '0';
+					}
 				}
-				else {
-					populations[i][j] = '0';
-				}
-			}
+			} while(getFitness(populations[i]) == 0);
 		}
 	}
 	
@@ -118,6 +121,12 @@ public class GA_Binary {
 			if(chromosome[i] == '1') {
 				totalValue += qkValueWeight[0][i];
 				totalWieght += qkValueWeight[1][i];
+				
+				// Add up the pair value with the other object if they are choosen too
+				for(int j = i+1; j < qkNumObjects; j++) {
+					if(chromosome[j] == '1')
+						totalValue += qkPairValue[i][j];
+				}
 			}
 		}
 		
