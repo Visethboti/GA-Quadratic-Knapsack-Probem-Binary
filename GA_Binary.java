@@ -66,6 +66,7 @@ public class GA_Binary {
 		this.numGenerationsToRun = numGenerationsToRun;
 		
 		initialization();
+		fitnessCalculation();
 		printPopulations();
 	}
 	
@@ -84,7 +85,9 @@ public class GA_Binary {
 	}
 	
 	private void fitnessCalculation(){
-		
+		for(int i = 0; i < popsSize; i++) {
+			popFitness[i] = getFitness(populations[i]);
+		}
 	}
 	
 	private void parentSelection(){
@@ -107,12 +110,29 @@ public class GA_Binary {
 		
 	}
 	
+	// GA Untilities Methods
+	private int getFitness(char[] chromosome) {
+		int totalWieght = 0;
+		int totalValue = 0;
+		for(int i = 0; i < qkNumObjects; i++) {
+			if(chromosome[i] == '1') {
+				totalValue += qkValueWeight[0][i];
+				totalWieght += qkValueWeight[1][i];
+			}
+		}
+		
+		if(totalWieght > qkCapacity) 
+			return 0;
+		else
+			return totalValue;
+	}
 	
-	// Untilies Methods
+	// Untilities Methods
 	private void printPopulations(){
 		for(int i = 0; i < popsSize; i++) {
 			System.out.print(i+"-");
-			System.out.println(populations[i]);
+			System.out.print(populations[i]);
+			System.out.println(" Fitness: " + popFitness[i]);
 		}
 	}
 }

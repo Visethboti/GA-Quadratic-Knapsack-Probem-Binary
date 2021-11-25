@@ -67,6 +67,8 @@ public class Main {
 	}
 	
 	public static void printProblem() {
+		System.out.println("*** Capacity ***");
+		System.out.println(qkCapacity);
 		System.out.println("*** Value and Weight ***");
 		print(qkValueWeight);
 		System.out.println("*** Pair Value ***");
