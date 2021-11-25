@@ -9,12 +9,12 @@ public class GA_Binary {
 	private final int[][] qkValueWeight; // [0][] is Value // [1][] is Weight
 	private final int[][] qkPairValue;
 	private final int qkCapacity;
-	private final int numObjects;
+	private final int qkNumObjects;
 	
 	private int numGenerationsToRun;
 	
 	// Parameters
-	private final int popsSize = 100;
+	private final int popsSize = 2;
 	private final double parentSizePercentage = 0.5; 
 	private final double offspringSizePercentage = 0.9;
 	private final double elitismSizePercentage = 0.1;
@@ -27,36 +27,36 @@ public class GA_Binary {
 	private final int elitismSize = popsSize - offspringSize;
 	
 	// Initialization
-	private int[][] populations; // populations[][0][] is Value // populations[][1][] is Weight
+	private char[][] populations; // populations[][0][] is Value // populations[][1][] is Weight
 		
 	// Fitness Calculation
 	private int[] popFitness;
 		
 	// Parents SelectionEvent
-	private int[] parentPool;
+	private char[] parentPool;
 		
 	// Crossover
-	private int[][] offspringPool;
+	private char[][] offspringPool;
 		
 	// Elitism
-	private int[][] elitismPool;
+	private char[][] elitismPool;
 		
 	// New generation
-	private int[][] nextGenPopulation;
+	private char[][] nextGenPopulation;
 	
 	// *** Constructor ***
 	public GA_Binary (int[][] qkValueWeight, int[][] qkPairValue, int qkCapacity, int numObjects) {
 		this.qkValueWeight = qkValueWeight;
 		this.qkPairValue = qkPairValue;
 		this.qkCapacity = qkCapacity;
-		this.numObjects = numObjects;
+		this.qkNumObjects = numObjects;
 		
-		this.populations = new int[popsSize][numObjects];
+		this.populations = new char[popsSize][numObjects];
 		this.popFitness = new int[popsSize];
-		this.parentPool = new int[parentSize];
-		this.offspringPool = new int[offspringSize][numObjects];
-		this.elitismPool = new int[elitismSize][numObjects];
-		this.nextGenPopulation = new int[popsSize][numObjects];
+		this.parentPool = new char[parentSize];
+		this.offspringPool = new char[offspringSize][numObjects];
+		this.elitismPool = new char[elitismSize][numObjects];
+		this.nextGenPopulation = new char[popsSize][numObjects];
 	
 		this.random = new Random();
 	}
@@ -65,12 +65,22 @@ public class GA_Binary {
 	public void runGA(int numGenerationsToRun){
 		this.numGenerationsToRun = numGenerationsToRun;
 		
-		
+		initialization();
+		printPopulations();
 	}
 	
 	// EA Methods
 	private void initialization(){
-	
+		for(int i = 0; i < popsSize; i++) {
+			for(int j = 0; j < qkNumObjects; j++) {
+				if(random.nextBoolean()) {
+					populations[i][j] = '1';
+				}
+				else {
+					populations[i][j] = '0';
+				}
+			}
+		}
 	}
 	
 	private void fitnessCalculation(){
@@ -100,6 +110,9 @@ public class GA_Binary {
 	
 	// Untilies Methods
 	private void printPopulations(){
-		
+		for(int i = 0; i < popsSize; i++) {
+			System.out.print(i+"-");
+			System.out.println(populations[i]);
+		}
 	}
 }
