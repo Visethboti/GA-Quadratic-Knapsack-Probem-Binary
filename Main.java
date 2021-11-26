@@ -1,6 +1,10 @@
 import java.io.*;
 import java.util.Scanner;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Main {
 	// problem
 	private static int[][] qkValueWeight; // [0][] is Value // [1][] is Weight
@@ -23,6 +27,30 @@ public class Main {
 		long finished = System.currentTimeMillis();
 		double timeElapsed = (finished - start) / (double)1000;
 		System.out.println("It took " + timeElapsed + " seconds");
+		
+		String[] gaResult = ga_Binary.getFitnessStat();
+		String[] outputData = {gaResult[0], gaResult[1], gaResult[2], Double.toString(timeElapsed)};
+		
+		
+		try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("test.csv"), true))) {
+
+		      StringBuilder sb = new StringBuilder();
+		      sb.append(gaResult[0]);
+		      sb.append(',');
+		      sb.append(gaResult[1]);
+		      sb.append(',');
+		      sb.append(gaResult[2]);
+		      sb.append(',');
+		      sb.append(Double.toString(timeElapsed));
+		      sb.append('\n');
+
+		      writer.write(sb.toString());
+
+		      System.out.println("Result written to csv file.");
+		      
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public static void readProblem() {

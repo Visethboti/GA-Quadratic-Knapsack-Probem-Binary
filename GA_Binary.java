@@ -358,6 +358,37 @@ public class GA_Binary {
 		System.out.println("AvgFitness= " + avgFitness + "| Highest= " + highestFitness + "| Lowest= " + lowestFitness + "| StanDev= " + standardDeviation);
 	}
 	
+	public String[] getFitnessStat(){
+		double sum = 0, avgFitness = 0, standardDeviation = 0;
+		int highestFitness = 0, highestFitessIndex = 0, lowestFitness = popFitness[0], lowestFitessIndex = 0;
+		
+		for(int i = 0; i < popsSize; i++){
+			if(highestFitness < popFitness[i]){
+				highestFitessIndex = i;
+				highestFitness = popFitness[i];
+			}
+			if(lowestFitness > popFitness[i]){
+				lowestFitessIndex = i;
+				lowestFitness = popFitness[i];
+			}
+			sum+=popFitness[i];
+		}
+		avgFitness = (double) sum / popsSize;
+		
+		// Standard Deviation Calculation
+		for(int i = 0; i < popsSize; i++) {
+			standardDeviation += Math.pow((popFitness[i] - avgFitness), 2); // pow of 2
+		}
+		standardDeviation = Math.sqrt(standardDeviation/popsSize);
+		
+		//Print the stats
+		System.out.println("====== EA Stats ====== ");
+		System.out.println("AvgFitness= " + avgFitness + "| Highest= " + highestFitness + "| Lowest= " + lowestFitness + "| StanDev= " + standardDeviation);
+		
+		String[] result = {Integer.toString(highestFitness), Double.toString(avgFitness), Double.toString(standardDeviation)};
+		return result;
+	}
+	
 	private boolean notExistInArray(int[] array, int value) {
 		for(int i = 0; i < array.length; i++) {
 			if(value == array[i])
