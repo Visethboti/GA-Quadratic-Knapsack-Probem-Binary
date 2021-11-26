@@ -9,17 +9,25 @@ public class Main {
 	private static int numObjects;
 	
 	public static void main(String[] args) {
+		System.out.println("Main: Starting readProblem()");
 		readProblem();
-		printProblem();
+		printProblemStat();
+		//printProblem();
 		
 		// Run GA
+		long start = System.currentTimeMillis();
+		
 		GA_Binary ga_Binary = new GA_Binary(qkValueWeight, qkPairValue, qkCapacity, numObjects);
-		ga_Binary.runGA(1);
+		ga_Binary.runGA(250);
+		
+		long finished = System.currentTimeMillis();
+		double timeElapsed = (finished - start) / (double)1000;
+		System.out.println("It took " + timeElapsed + " seconds");
 	}
 	
 	public static void readProblem() {
 		try {
-			File file  = new File("problem_instances\\test.txt");
+			File file  = new File("..\\problem_instances\\jeu_100_25_2.txt");
 			Scanner scanner = new Scanner(file);
 			
 			String fileName = scanner.nextLine();
@@ -67,12 +75,17 @@ public class Main {
 	}
 	
 	public static void printProblem() {
-		System.out.println("*** Capacity ***");
-		System.out.println(qkCapacity);
+		printProblemStat();
 		System.out.println("*** Value and Weight ***");
 		print(qkValueWeight);
 		System.out.println("*** Pair Value ***");
 		print(qkPairValue);
+	}
+	
+	public static void printProblemStat() {
+		System.out.println("*** The Problem ***");
+		System.out.print("Number of Objects = " + numObjects);
+		System.out.println(" Capacity = " + qkCapacity);
 	}
 	
 	public static void print(int[][] twoDArray) {

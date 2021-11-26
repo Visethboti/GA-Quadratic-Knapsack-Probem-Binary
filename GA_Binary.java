@@ -14,7 +14,7 @@ public class GA_Binary {
 	private int numGenerationsToRun;
 	
 	// Parameters
-	private final int popsSize = 10;
+	private final int popsSize = 100;
 	private final double parentSizePercentage = 0.5; 
 	private final double offspringSizePercentage = 0.98;
 	private final double elitismSizePercentage = 0.02;
@@ -65,26 +65,34 @@ public class GA_Binary {
 	// *** Run ***
 	public void runGA(int numGenerationsToRun){
 		this.numGenerationsToRun = numGenerationsToRun;
+		int genCounter = 0;
 		
+		System.out.println("GA_Binary: Start Running GA");
+		
+		// Initialization
+		System.out.println("GA_Binary: Start Initialization");
 		initialization();
+		System.out.println("GA_Binary: Start fitnessCalculation");
 		fitnessCalculation();
-		printPopulations();
-		printFitnessStat();
-		parentSelection();
-		crossOver();
-		elitism();
 		
-		printParentPool();
-		printOffspringPool();
-		printElitismPool();
-		
-		replaceGeneration();
-		fitnessCalculation();
-		printPopulations();
+		System.out.print("Gen:" + genCounter);
 		printFitnessStat();
-		//mutation();
-		//fitnessCalculation();
-		//printPopulations();
+		
+		System.out.println("GA_Binary: Start Generational");
+		do {
+			parentSelection();
+			crossOver();
+			elitism();
+			replaceGeneration();
+			fitnessCalculation();
+			mutation();
+			fitnessCalculation();
+			
+			genCounter++;
+			System.out.print("Gen:" + genCounter);
+			printFitnessStat();
+		}while(genCounter < numGenerationsToRun);
+		System.out.println("GA_Binary: Finished Generational");
 	}
 	
 	// EA Methods
