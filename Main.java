@@ -12,6 +12,8 @@ public class Main {
 	private static int qkCapacity;
 	private static int numObjects;
 	
+	private static final String problemFilName = "test.txt";
+	
 	public static void main(String[] args) {
 		System.out.println("Main: Starting readProblem()");
 		readProblem();
@@ -22,31 +24,36 @@ public class Main {
 		long start = System.currentTimeMillis();
 		
 		GA_Binary ga_Binary = new GA_Binary(qkValueWeight, qkPairValue, qkCapacity, numObjects);
-		ga_Binary.runGA(250);
+		ga_Binary.runGA(50);
 		
 		long finished = System.currentTimeMillis();
 		double timeElapsed = (finished - start) / (double)1000;
 		System.out.println("It took " + timeElapsed + " seconds");
 		
 		String[] gaResult = ga_Binary.getFitnessStat();
-		String[] outputData = {gaResult[0], gaResult[1], gaResult[2], Double.toString(timeElapsed)};
+		String[] outputData = {problemFilName, gaResult[0], gaResult[1], gaResult[2], Double.toString(timeElapsed)};
 		
-		
+		printResultToCSV(outputData);
+	}
+	
+	private static void printResultToCSV(String[] outputData) {
 		try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("test.csv"), true))) {
 
 		      StringBuilder sb = new StringBuilder();
-		      sb.append(gaResult[0]);
+		      sb.append(outputData[0]);
 		      sb.append(',');
-		      sb.append(gaResult[1]);
+		      sb.append(outputData[1]);
 		      sb.append(',');
-		      sb.append(gaResult[2]);
+		      sb.append(outputData[2]);
 		      sb.append(',');
-		      sb.append(Double.toString(timeElapsed));
+		      sb.append(outputData[3]);
+		      sb.append(',');
+		      sb.append(outputData[4]);
 		      sb.append('\n');
 
 		      writer.write(sb.toString());
 
-		      System.out.println("Result written to csv file.");
+		      System.out.println("Binary's result written to csv file.");
 		      
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -55,7 +62,7 @@ public class Main {
 	
 	public static void readProblem() {
 		try {
-			File file  = new File("..\\problem_instances\\jeu_100_25_2.txt");
+			File file  = new File("..\\problem_instances\\" + problemFilName);
 			Scanner scanner = new Scanner(file);
 			
 			String fileName = scanner.nextLine();

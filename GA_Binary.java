@@ -18,7 +18,7 @@ public class GA_Binary {
 	private final double parentSizePercentage = 0.5; 
 	private final double offspringSizePercentage = 0.98;
 	private final double elitismSizePercentage = 0.02;
-	private final double mutationProbality = 0.0005;
+	private final double mutationProbality = 0.005;
 	private final int kTournamentSize = 3;
 	
 	// Parameters Size
@@ -68,6 +68,11 @@ public class GA_Binary {
 		int genCounter = 0;
 		
 		System.out.println("GA_Binary: Start Running GA");
+		/*
+		initialization();
+		fitnessCalculation();
+		printPopulations();
+		*/
 		
 		// Initialization
 		System.out.println("GA_Binary: Start Initialization");
@@ -93,6 +98,8 @@ public class GA_Binary {
 			printFitnessStat();
 		}while(genCounter < numGenerationsToRun);
 		System.out.println("GA_Binary: Finished Generational");
+		
+		printPopulations();
 	}
 	
 	// EA Methods
