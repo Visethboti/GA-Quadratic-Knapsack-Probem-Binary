@@ -14,7 +14,7 @@ public class GA_Binary {
 	private int numGenerationsToRun;
 	
 	// Parameters
-	private final int popsSize = 100;
+	private final int popsSize = 1000;
 	private final double parentSizePercentage = 0.5; 
 	private final double offspringSizePercentage = 0.98;
 	private final double elitismSizePercentage = 0.02;
@@ -95,11 +95,12 @@ public class GA_Binary {
 			
 			genCounter++;
 			System.out.print("Gen:" + genCounter);
-			printFitnessStat();
+			//printFitnessStat();
 		}while(genCounter < numGenerationsToRun);
 		System.out.println("GA_Binary: Finished Generational");
 		
-		printPopulations();
+		printFitnessStat();
+		//printPopulations();
 	}
 	
 	// EA Methods
